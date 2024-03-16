@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{datetime}
+\usepackage{indentfirst}
+\usepackage{pgffor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{csquotes}
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{references.bib}
+
+% Commands
+\newcommand{\authors}    {NOM Prénom, NOM Prénom}
+\newcommand{\matiere}    {Matiere}
+\newcommand{\mytitle}    {Rapport de \matiere}
+\newcommand{\subtitle}   {Sujet}
+\newcommand{\logo}       {img/CY_Tech.png}
+\newcommand{\classe}     {Classe}
+\newcommand{\annee}      {annee scolaire}
+\newcommand{\enseignant} {enseignant}
+\newcommand{\parties}    {partie1.tex,partie2.tex}
+\newcommand{\annexes}    {annexe1.tex}
+
+\begin{document}
+
+\input{page_garde}
+\tableofcontents
+\pagebreak
+\input{abstract}
+\pagebreak
+\input{remerciements}
+\pagebreak
+\input{introduction}
+\pagebreak
+
+\foreach \partie in \parties {
+  \input{parties/\partie}
+  \pagebreak
+}
+
+\appendix
+\foreach \annexe in \annexes {
+  \input{annexes/\annexe}
+  \pagebreak
+}
+\printbibliography
+
+\end{document}
