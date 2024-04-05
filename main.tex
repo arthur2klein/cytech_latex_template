@@ -1,0 +1,152 @@
+\documentclass[12pt]{article} % 12pt = taille de la police pour le texte normal
+
+\usepackage{fancyhdr} % Pour modifier le header
+\usepackage[hidelinks]{hyperref} % Pour rendre les liens cliquables
+\usepackage{lipsum} % Pour insérer des lorem ipsum
+\usepackage{graphicx} % Pour insérer des images
+\usepackage{datetime} % Pour récupérer des informations sur la date et l'heure
+\usepackage{indentfirst} % Pour indenter les paragraphes
+\usepackage{pgffor} % Pour itérer sur les listes
+\usepackage[T1]{fontenc} % Support des caractères
+\usepackage[utf8]{inputenc} % Support des caractères
+\usepackage[french]{babel} % Support des caractères
+\usepackage{textcomp} % Support des caractères
+\usepackage{csquotes} % Pour citer les références
+\usepackage[sorting=none]{biblatex} % Pour stocker les références
+\usepackage{geometry} % Pour le formatage des pages
+\usepackage[usenames,dvipsnames]{xcolor} % Pour les couleurs
+\usepackage{listings} % Pour l'insertion de code
+\usepackage{chronology} % Pour l'insertion de frises
+\usepackage{tikz} % Pour l'insertion de graphes
+
+\addbibresource{references.bib} % Fichier des références bibliographiques
+
+\geometry{margin=3cm} % Marge du document
+\setlength{\parindent}{1cm} % Indentation des paragraphes
+
+% Couleurs utilisées pour les blocs de code
+\definecolor{Lightgray}{gray}{0.97}
+\definecolor{mediumgray}{rgb}{0.3, 0.4, 0.4}
+\definecolor{mediumblue}{rgb}{0.0, 0.0, 0.8}
+\definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13}
+\definecolor{darkviolet}{rgb}{0.58, 0.0, 0.83}
+\definecolor{royalblue}{rgb}{0.25, 0.41, 0.88}
+\definecolor{crimson}{rgb}{0.86, 0.8, 0.24}
+
+\lstset{ % Style des blocs de code
+  backgroundcolor=\color{Lightgray},
+  basicstyle=\ttfamily,
+  breakatwhitespace=false,
+  breaklines=false,
+  captionpos=b,
+  columns=fullflexible,
+  commentstyle=\color{mediumgray}\upshape,
+  emph={},
+  emphstyle=\color{crimson},
+  extendedchars=true,
+  fontadjust=true,
+  frame=single,
+  identifierstyle=\color{black},
+  keepspaces=true,
+  keywordstyle=\color{mediumblue},
+  keywordstyle={[2]\color{darkviolet}},
+  keywordstyle={[3]\color{royalblue}},
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\tiny\color{black},
+  rulecolor=\color{black},
+  showlines=true,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  stringstyle=\color{forestgreen},
+  tabsize=2,
+  title=\lstname,
+  breaklines=true,
+  upquote=true
+}
+
+\lstdefinelanguage{JavaScript}{ % Pour le support de blocs de code js
+  morekeywords=[1]{break, continue, delete, else, for, function, if, in, new,
+  return, this, typeof, var, void, while, with, import, from},
+  % Literals, primitive types, and reference types.
+  morekeywords=[2]{false, null, true, boolean, number, undefined, Array,
+  Boolean, Date, Math, Number, String, Object},
+  % Built-ins.
+  morekeywords=[3]{eval, parseInt, parseFloat, escape, unescape},
+  sensitive,
+  morecomment=[s]{/*}{*/},
+  morecomment=[l]//,
+  morecomment=[s]{/**}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}[keywords, comments, strings]
+
+\lstdefinelanguage{TypeScript}{ % Pour le support de blocs de code ts
+  morekeywords=[1]{break, continue, delete, else, for, function, if, in,
+    new, return, this, typeof, var, void, while, with, const, as, static,
+  import, export, from, class},
+  % Literals, primitive types, and reference types.
+  morekeywords=[2]{false, null, true, boolean, number, undefined,
+  Array, Boolean, Date, Math, Number, String, Object, Promise, string},
+  % Built-ins.
+  morekeywords=[3]{eval, parseInt, parseFloat, escape, unescape, await, async},
+  sensitive,
+  morecomment=[s]{/*}{*/},
+  morecomment=[l]//,
+  morecomment=[s]{/**}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`
+}[keywords, comments, strings]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% À modifier pour correspondre au projet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\authors}    {
+  NOM Prénom,
+  Nom Prénom
+}
+\newcommand{\matiere}    {ma\_matière}
+\newcommand{\mytitle}    {Rapport de \matiere}
+\newcommand{\subtitle}   {Sous-titre: sujet}
+\newcommand{\logoecole} {img/CY_Tech.png}
+\newcommand{\logoprojet}{img/CY_Tech.png}
+\newcommand{\classe}     {ING3 ICC}
+\newcommand{\annee}      {2023/24}
+\newcommand{\enseignant} {NOM Prénom}
+\newcommand{\parties}    {
+  partie1.tex,
+  partie2.tex}
+\newcommand{\annexes}    {annexe1.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% Layout
+\begin{document}
+
+\input{page_garde}
+\setcounter{tocdepth}{2} % Seules les sections et sous-sections (profondeur 2 sont affichées dans le sommaire)
+\tableofcontents
+\pagebreak
+\input{abstract}
+\pagebreak
+\input{remerciements}
+\pagebreak
+\input{introduction}
+\pagebreak
+
+\foreach \partie in \parties {
+  \input{parties/\partie}
+  \pagebreak
+}
+
+\appendix
+\foreach \annexe in \annexes {
+  \input{annexes/\annexe}
+  \pagebreak
+}
+\printbibliography
+
+\end{document}

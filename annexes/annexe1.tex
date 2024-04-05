@@ -1,3 +1,22 @@
 \section{Annexe}
 
-Ceci est mon annexe.
+\begin{chronology}[5]{2000}{2025}{\textwidth/2} % Ajout d'une frise
+  \event{\decimaldate{20}{5}{2005}}{Événement A}
+  \event[2008]{2012}{Événement B}
+  \event[2016]{2020}{Événement C}
+\end{chronology}
+
+\bigskip
+
+\begin{tikzpicture} % Ajout d'un arbre (tikz permet aussi d'ajouter des graphes plus complexes)
+  \node{n0}
+  child{
+    node {n1}
+  }
+  child{
+    node {n2}
+    child {
+      node {n3}
+    }
+  };
+\end{tikzpicture}

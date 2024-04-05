@@ -1,5 +1,73 @@
-\section{Sujet de ma première partie}
+\section{Sujet de ma première partie} % Ajout d'une section
 
 Ceci est ma première partie.
 
-Voilà de quoi elle parle \cite{ein05}.
+Voilà de quoi elle parle \cite{ein05}. % Ajout d'une citation
+
+Voilà un exemple de section:
+
+\subsection{Chiffrement} % Ajout d'une sous-section
+
+L'encryption est donc effectué dans le frontend. Plusieurs librairies sont
+alors possibles parmi lesquelles nous avons essayé:
+\begin{itemize}   % Ajout d'une liste
+  \item{\href{https://github.com/brix/crypto-js}{cryptojs},} % Ajout d'un lien (url si lien = texte affiché)
+  \item{\href{https://github.com/travist/jsencrypt}{jsencrypt},}
+  \item{\href{https://github.com/digitalbazaar/forge}{forge},}
+  \item{\href{https://github.com/openpgpjs/openpgpjs}{openpgp}.}
+\end{itemize}
+
+\medskip % Ajout d'un saut de ligne moyen (bigskip pour grand)
+
+\begin{lstlisting}[language=TypeScript, caption=Encryption des messages]% Ajout d'un bloc de code
+  class Encryption {
+
+    static async encrypt(
+      message: string,
+      user_id: string,
+      group_id: string
+    ): Promise<string> {
+      const publicKey = await Encryption.getPublicKey(user_id, group_id);
+      if (publicKey === null) {
+        return '';
+      }
+      const key = await readKey({armoredKey: publicKey});
+      const encryptedMessage = await encrypt({
+        message: await createMessage({text: message}),
+        encryptionKeys: key,
+      });
+      return encryptedMessage.toString();
+    }
+
+    static async decrypt(
+      message: string,
+      user_id: string,
+      group_id: string
+    ): Promise<string> {
+      const privateKey = await Encryption.getPrivateKey(user_id, group_id);
+      console.log(privateKey);
+      if (privateKey === null) {
+        return '';
+      }
+      const key = await readPrivateKey({armoredKey: privateKey});
+      const { data: decrypted } = await decrypt({
+        message: await createMessage({text: message}),
+        decryptionKeys: key,
+      });
+      return decrypted.toString();
+    }
+
+    static async createKey(group_id: string, user_id: string): Promise<any> {
+      const {privateKey, publicKey} = await generateKey({
+        type: 'ecc',
+        curve: 'curve25519',
+        userIDs: [{ name: `${group_id} ${user_id}`}]
+      });
+      Encryption.storePublicKey(user_id, group_id, publicKey);
+      Encryption.storePrivateKey(user_id, group_id, privateKey);
+      return {privateKey, publicKey};
+    }
+  }
+
+export default Encryption;
+\end{lstlisting}
